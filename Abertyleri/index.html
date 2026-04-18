@@ -1860,7 +1860,7 @@ function exGrid(cv,startBtn){
   var SYM_SIZE=lvlCfg.symSize;
   var TARGET='★'; // ★
   var syms=['●','■','▲','◆','❖','✚','⬡','⬢','✿','❋'];
-  var cellW=W/COLS,cellH=(H-26)/ROWS;
+  var cellW,cellH;
   var currentGrid=null;
 
   function buildGrid(){
@@ -1890,6 +1890,7 @@ function exGrid(cv,startBtn){
 
   function drawGrid(gd,reveal){
     W=cv.width;H=cv.height;
+    cellW=W/COLS;cellH=(H-26)/ROWS;
     ctx.fillStyle='#081210';ctx.fillRect(0,0,W,H);
     ctx.fillStyle='rgba(255,255,255,0.1)';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.textBaseline='alphabetic';
     ctx.fillText(affectedSide==='left'?t('canvas_grid_instr_ltr'):t('canvas_grid_instr_rtl'),W/2,18);
