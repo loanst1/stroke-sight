@@ -1176,14 +1176,14 @@ function renderCondSubArea(){
   if(userCondition==='hemianopia'||userCondition==='neglect'){
     html='<div class="cond-sub"><div class="cond-sub-label">'+t('cond_pick_side')+'</div>';
     html+='<div class="cond-sub-btns">';
-    html+='<button class="cond-sub-btn'+(conditionDetail==='left'?' active':'')+" id='sub-left'>"+t('side_left')+'</button>';
-    html+='<button class="cond-sub-btn'+(conditionDetail==='right'?' active':'')+" id='sub-right'>"+t('side_right')+'</button>';
+    html+='<button class="cond-sub-btn'+(conditionDetail==='left'?' active':'')+'" id="sub-left">'+ t('side_left')+'</button>';
+    html+='<button class="cond-sub-btn'+(conditionDetail==='right'?' active':'')+'" id="sub-right">'+ t('side_right')+'</button>';
     html+='</div></div>';
   } else if(userCondition==='quadrantanopia'){
     html='<div class="cond-sub"><div class="cond-sub-label">'+t('cond_pick_quadrant')+'</div>';
     html+='<div class="cond-quad-grid">';
     ['UL','UR','LL','LR'].forEach(function(q){
-      html+='<button class="cond-sub-btn'+(conditionDetail===q?' active':'')+" data-q='"+q+"'>"+t('quad_'+q)+'</button>';
+      html+='<button class="cond-sub-btn'+(conditionDetail===q?' active':'')+'" data-q="'+ q +'">'+t('quad_'+q)+'</button>';
     });
     html+='</div></div>';
   } else if(userCondition==='scotoma'){
