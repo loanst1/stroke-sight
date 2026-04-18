@@ -4,22 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stroke Sight — Visual Field Trainer</title>
-  <link rel="canonical" href="https://ansteyapps.com/stroke-sight/">
-  <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f7f6f2;color:#2c3e2d;text-align:center}a{color:#3a7a5a}</style>
+  <meta http-equiv="refresh" content="2;url=https://ansteyapps.com/stroke-sight/">
+  <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f7f6f2;color:#2c3e2d;text-align:center}a{color:#3a7a5a}p{font-size:18px}</style>
 </head>
 <body>
-  <p>Redirecting to <a href="https://ansteyapps.com/stroke-sight/">ansteyapps.com/stroke-sight</a>…</p>
+  <p>Redirecting to <a href="https://ansteyapps.com/stroke-sight/">ansteyapps.com</a>…</p>
   <script>
-    // Clear old service worker first, then redirect
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').then(() => {
-        setTimeout(() => window.location.replace("https://ansteyapps.com/stroke-sight/"), 1000);
-      }).catch(() => {
-        window.location.replace("https://ansteyapps.com/stroke-sight/");
-      });
-    } else {
+    // Aggressively clear all service workers and caches, then redirect
+    async function clearAndRedirect() {
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map(r => r.unregister()));
+        }
+        if ('caches' in window) {
+          const names = await caches.keys();
+          await Promise.all(names.map(n => caches.delete(n)));
+        }
+      } catch(e) {}
       window.location.replace("https://ansteyapps.com/stroke-sight/");
     }
+    clearAndRedirect();
   </script>
 </body>
 </html>
