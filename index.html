@@ -4,12 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stroke Sight — Visual Field Trainer</title>
-  <meta http-equiv="refresh" content="0;url=https://ansteyapps.com/stroke-sight/">
   <link rel="canonical" href="https://ansteyapps.com/stroke-sight/">
   <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f7f6f2;color:#2c3e2d;text-align:center}a{color:#3a7a5a}</style>
 </head>
 <body>
   <p>Redirecting to <a href="https://ansteyapps.com/stroke-sight/">ansteyapps.com/stroke-sight</a>…</p>
-  <script>window.location.replace("https://ansteyapps.com/stroke-sight/");</script>
+  <script>
+    // Clear old service worker first, then redirect
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then(() => {
+        setTimeout(() => window.location.replace("https://ansteyapps.com/stroke-sight/"), 1000);
+      }).catch(() => {
+        window.location.replace("https://ansteyapps.com/stroke-sight/");
+      });
+    } else {
+      window.location.replace("https://ansteyapps.com/stroke-sight/");
+    }
+  </script>
 </body>
 </html>
