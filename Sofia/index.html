@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
   <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#145f59">
+<meta name="theme-color" content="#1f4f3f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Stroke Sight">
@@ -12,24 +12,25 @@
 <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
 <title>Stroke Sight – Visual Field Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root,[data-theme="light"]{
-  --bg:#f2f5f4;--surface:#ffffff;--surface2:#eef2f1;--surface3:#e4ebe9;
-  --border:rgba(0,80,70,0.13);--text:#182422;--muted:#4a6360;--faint:#9ab5b1;
-  --primary:#1a7a72;--primary-h:#145f59;--primary-lt:#d4eeeb;
-  --success:#2d7a3a;--success-lt:#d6eeda;
+  --bg:#fbf8f1;--surface:#ffffff;--surface2:#f5f1e8;--surface3:#e8f0eb;
+  --border:rgba(42,42,40,0.12);--text:#2a2a28;--muted:#6b6b68;--faint:#a0a09d;
+  --primary:#1f4f3f;--primary-h:#2e6e58;--primary-lt:#e8f0eb;
+  --success:#2e6e58;--success-lt:#d6eeda;
   --warn:#8a5a00;--warn-lt:#fdf0d6;
   --danger:#9b2335;--danger-lt:#fde8eb;
   --r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-2xl:1.5rem;--r-pill:9999px;
   --sh-sm:0 1px 4px rgba(0,60,50,.08);--sh-md:0 4px 18px rgba(0,60,50,.11);--sh-lg:0 12px 40px rgba(0,60,50,.15);
   --ease:200ms cubic-bezier(.16,1,.3,1);
-  --f-head:Georgia,"Times New Roman",serif;
-  --f-body:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --f-head:'Fraunces',Georgia,serif;
+  --f-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
 }
 [data-theme="dark"]{
-  --bg:#0f1917;--surface:#182220;--surface2:#1e2b29;--surface3:#243330;
-  --border:rgba(200,255,240,.1);--text:#d4e8e5;--muted:#7aa09c;--faint:#3d5552;
-  --primary:#4db8af;--primary-h:#6dccc4;--primary-lt:#1a3835;
+  --bg:#1a1d1a;--surface:#222622;--surface2:#1e2b29;--surface3:#243330;
+  --border:rgba(200,255,240,.1);--text:#d4ddd5;--muted:#7aa09c;--faint:#3d5552;
+  --primary:#2e6e58;--primary-h:#3a8a6e;--primary-lt:#1a3835;
   --success:#5fba6b;--success-lt:#1a3020;
   --warn:#e8a83a;--warn-lt:#2e2010;
   --danger:#e8697a;--danger-lt:#2e1018;
@@ -124,7 +125,7 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 .btn-start{background:var(--primary);color:#fff;padding:.75rem 2.5rem;
   border-radius:var(--r-pill);font-weight:700;font-size:.95rem;
   box-shadow:var(--sh-sm);transition:background var(--ease),transform var(--ease)}
-.btn-start:hover{background:var(--primary-h)}
+.btn-start:hover{background:#1f4f3f}
 .btn-start:active{transform:scale(.97)}
 .btn-start:disabled{opacity:.45;cursor:not-allowed}
 
