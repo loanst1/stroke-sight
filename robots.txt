@@ -2,3 +2,5 @@ User-agent: *
 Disallow: /Sofia/
 Disallow: /Abertyleri/
 Disallow: /lite/
+Disallow: /modular/
+Disallow: /lite-modular/
