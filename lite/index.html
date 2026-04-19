@@ -2,7 +2,6 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-  <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#145f59">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -565,7 +564,30 @@ Scotoma exercises (Blind Spot Tracker, Gap Fill) provide awareness training and 
         <p>This is the free version of Stroke Sight with 3 difficulty levels. The full version includes 10 progressive levels across all exercises, with more challenge as you improve.</p>
         <p style="margin-top:.5rem">The full version is available on the App Store, Google Play, and Amazon Appstore for a one-time purchase of £29.99.</p>
       </div>
+      <div class="about-card" style="background:var(--primary-lt,rgba(26,122,114,0.08));border:1px solid rgba(26,122,114,0.2);border-radius:12px;padding:16px;margin-top:12px">
+        <h3 style="color:var(--primary);font-size:15px;margin-bottom:6px">If cost is a barrier</h3>
+        <p style="font-size:13px;color:var(--muted)">If the full version's price is a barrier to your rehabilitation, please email <a href="mailto:liam@ansteyapps.com" style="color:var(--primary)">liam@ansteyapps.com</a>. We want the full app to be available to everyone who needs it.</p>
+      </div>
+      <div class="about-card" style="padding:16px;margin-top:12px">
+        <h3 style="font-size:15px;margin-bottom:8px">What's in each version</h3>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <thead><tr>
+            <th style="text-align:left;padding:6px 4px;border-bottom:1px solid var(--border)"></th>
+            <th style="text-align:center;padding:6px 4px;border-bottom:1px solid var(--border)">Lite (free)</th>
+            <th style="text-align:center;padding:6px 4px;border-bottom:1px solid var(--border)">Full (£29.99)</th>
+          </tr></thead>
+          <tbody>
+            <tr><td style="padding:6px 4px">All 8 exercises</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td></tr>
+            <tr><td style="padding:6px 4px">Difficulty levels</td><td style="text-align:center">1–3</td><td style="text-align:center">1–10</td></tr>
+            <tr><td style="padding:6px 4px">16 languages</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td></tr>
+            <tr><td style="padding:6px 4px">Works offline</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td></tr>
+            <tr><td style="padding:6px 4px">Progress export</td><td style="text-align:center">Basic</td><td style="text-align:center">Detailed</td></tr>
+            <tr><td style="padding:6px 4px">No subscription</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td></tr>
+          </tbody>
+        </table>
+      </div>
       <div class="about-footer">
+        <p><a href="https://stroke-sight.com/privacy-policy.html" style="color:var(--primary)" target="_blank">Privacy Policy</a></p>
         <button class="btn-privacy" id="btn-privacy">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <span data-i18n="btn_privacy">Privacy Policy</span>
@@ -900,8 +922,8 @@ Scotoma exercises (Blind Spot Tracker, Gap Fill) provide awareness training and 
 <div id="upgradeOverlay" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.5);align-items:center;justify-content:center">
   <div style="background:var(--surface);border-radius:16px;padding:32px 24px;max-width:360px;width:90%;text-align:center">
     <div style="font-size:40px;margin-bottom:12px">🎉</div>
-    <h2 style="font-size:20px;margin-bottom:8px">You've mastered the free levels</h2>
-    <p style="color:var(--muted);font-size:14px;margin-bottom:16px">You've completed 3 levels — that's real progress. The full version has 10 levels that continue to challenge you as you improve, plus detailed progress tracking to share with your therapist.</p>
+    <h2 style="font-size:20px;margin-bottom:8px">You're ready for the next challenge</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:16px">You've made real progress across 3 levels. The full version includes 7 more levels of increasing challenge, continuing your rehabilitation as your skills develop — plus detailed progress exports to share with your therapist.</p>
     <p style="font-weight:700;font-size:18px;margin-bottom:16px">£29.99 — one-time purchase</p>
     <a href="#" id="upgradeLink" style="display:inline-block;background:var(--primary);color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:8px">Get Full Version</a>
     <br>
@@ -1077,6 +1099,24 @@ var LEVEL_CONFIG = {
   ]
 };
 
+(function setUpgradeLink() {
+  var link = document.getElementById('upgradeLink');
+  if (!link) return;
+  var ua = navigator.userAgent;
+  var url;
+  if (/iPad|iPhone|iPod/.test(ua)) {
+    url = 'https://ansteyapps.com/stroke-sight/';
+  } else if (/Android/.test(ua)) {
+    url = 'https://ansteyapps.com/stroke-sight/';
+  } else if (/Silk|Kindle/.test(ua)) {
+    url = 'https://www.amazon.co.uk/Stroke-Sight-Visual-Field-Trainer/dp/B0GXGRMB2L/';
+  } else {
+    url = 'https://ansteyapps.com/stroke-sight/';
+  }
+  link.href = url;
+  link.target = '_blank';
+})();
+
 function showUpgradePrompt() {
   var overlay = document.getElementById('upgradeOverlay');
   if (overlay) { overlay.style.display = 'flex'; }
@@ -1089,13 +1129,20 @@ function checkLevelUp(exId) {
   if (lvl >= 3) {
     // Check if they would have levelled up, and if so show the upgrade prompt
     var exSessions = sessions.filter(function(s){return s.exerciseId===exId;});
-    if (exSessions.length >= 3) {
-      var last3 = exSessions.slice(0, 3);
+    if (exSessions.length >= 6) {
+      var last6 = exSessions.slice(0, 6);
       var thresholds = [0,14,14,14,15,15,15,16,16,16,17];
       var threshold = thresholds[lvl] || 15;
-      var avgScore = last3.reduce(function(a,s){return a+s.score;},0) / 3;
-      if (avgScore >= threshold) {
-        showUpgradePrompt();
+      var avgScore = last6.reduce(function(a,s){return a+s.score;},0) / 6;
+      var dayKeys = new Set(last6.map(function(s){
+        return new Date(s.date).toISOString().slice(0,10);
+      }));
+      if (avgScore >= threshold && dayKeys.size >= 3) {
+        var hasShown = localStorage.getItem('strokeSight_upgradeShown_' + exId);
+        if (!hasShown) {
+          localStorage.setItem('strokeSight_upgradeShown_' + exId, '1');
+          showUpgradePrompt();
+        }
       }
     }
     return false;
@@ -1131,7 +1178,7 @@ function t(key) {
 })();
 
 // ── IndexedDB layer ──
-var DB_NAME='RevisionDB';
+var DB_NAME='StrokeSightLiteDB';
 var DB_VERSION=1;
 var STORE_NAME='sessions';
 var db=null;
@@ -3381,8 +3428,17 @@ function renderSettings() {
 document.querySelectorAll('.level-slider').forEach(function(slider) {
   slider.addEventListener('input', function() {
     var exId = this.getAttribute('data-ex');
-    var val = Math.min(3, parseInt(this.value));
+    var requested = parseInt(this.value);
+    var val = Math.min(3, requested);
     this.value = val; // clamp slider UI too
+    if (requested > 3) {
+      var hint = this.closest('.settings-card').querySelector('.settings-hint, [class*="hint"]');
+      if (hint) {
+        hint.style.color = 'var(--primary)';
+        hint.style.fontWeight = '600';
+        setTimeout(function() { hint.style.color = ''; hint.style.fontWeight = ''; }, 3000);
+      }
+    }
     exLevels[exId] = val;
     saveLevels();
     document.getElementById('lvl-num-'+exId).textContent = val;
