@@ -1,4 +1,4 @@
-var CACHE_NAME = 'strokesight-lite-v1';
+var CACHE_NAME = 'strokesight-lite-v2';
 var ASSETS = [
   './',
   './index.html',

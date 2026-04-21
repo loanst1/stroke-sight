@@ -1480,11 +1480,12 @@ function startTimer(onEnd,secs){
   exState.timer=setTimeout(tick,1000);
 }
 function endEx(){
-  stopEx();
+  // Capture exState BEFORE stopEx() — stopEx resets exState={}
   var score=exState&&exState.score||0;
   var hits=exState&&exState.hits||0;
   var misses=exState&&exState.misses||0;
   var totalRt=exState&&exState.totalRt||0;
+  stopEx();
   var rt=hits>0?Math.round(totalRt/hits):0;
   var accuracy=(hits+misses)>0?Math.round((hits/(hits+misses))*100):0;
   var now=new Date();
