@@ -205,6 +205,17 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 .langpick-btn{padding:.7rem .875rem;border-radius:var(--r-lg);border:1.5px solid var(--border);background:var(--surface);text-align:left;transition:all var(--ease);cursor:pointer}
 .langpick-btn:hover,.langpick-btn:focus{border-color:var(--primary);background:var(--surface2);outline:none}
 .langpick-btn:active{transform:scale(.97)}
+.langpick-btn-recommended{
+  background:var(--primary-lt);
+  border-color:var(--primary);
+  position:relative;
+}
+.langpick-btn-recommended::before{
+  content:"★";
+  position:absolute;top:6px;right:8px;
+  font-size:10px;color:var(--primary);font-weight:700;
+}
+
 .langpick-native{font-size:1.05rem;font-weight:700;color:var(--text);display:block}
 .langpick-english{font-size:.75rem;color:var(--faint);display:block;margin-top:.15rem}
 /* ── PRIVACY MODAL ── */
@@ -3373,7 +3384,42 @@ renderSettings();
 var langpick = document.getElementById('langpick');
 var langAlreadySet = !!_ls.getItem('strokeSight_lang');
 var isFirstLaunch = !langAlreadySet;
+
+// ── Auto-detect browser/OS language on first launch ──
+var SUPPORTED_LANGS = ['en','es','es_mx','fr','fr_ca','de','it','pt','pt_br','cy','ja','ko','hi','ar','zh','pl'];
+function detectLang() {
+  var candidates = [];
+  // navigator.languages is an ordered list of user preferences (best)
+  if (navigator.languages && navigator.languages.length) {
+    candidates = candidates.concat(navigator.languages);
+  }
+  if (navigator.language) candidates.push(navigator.language);
+  // Normalise and match
+  for (var i = 0; i < candidates.length; i++) {
+    var raw = (candidates[i] || '').toLowerCase();
+    // Exact regional match first: es-mx, pt-br, fr-ca
+    var regionalKey = raw.replace('-','_');
+    if (SUPPORTED_LANGS.indexOf(regionalKey) !== -1) return regionalKey;
+    // Language portion only: es, fr, zh, pt, cy
+    var base = raw.split('-')[0];
+    if (SUPPORTED_LANGS.indexOf(base) !== -1) return base;
+    // Chinese variants all fold to 'zh'
+    if (base === 'zh') return 'zh';
+  }
+  return 'en'; // Fallback
+}
+
 if(!langAlreadySet){
+  var detected = detectLang();
+  // Highlight the detected language in the picker
+  var detectedBtn = document.querySelector('.langpick-btn[data-lang="' + detected + '"]');
+  if (detectedBtn) {
+    detectedBtn.classList.add('langpick-btn-recommended');
+    detectedBtn.setAttribute('aria-label', detectedBtn.textContent + ' (recommended)');
+    // Move it to the top of the grid for visibility
+    var grid = detectedBtn.parentElement;
+    if (grid) grid.insertBefore(detectedBtn, grid.firstChild);
+  }
   langpick.style.display = 'flex';
 }
 document.querySelectorAll('.langpick-btn').forEach(function(btn){
