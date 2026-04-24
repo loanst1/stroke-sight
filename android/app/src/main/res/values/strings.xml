@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Stroke Sight</string>
+    <string name="title_activity_main">Stroke Sight</string>
+    <string name="package_name">com.ansteyapps.strokesight</string>
+    <string name="custom_url_scheme">com.ansteyapps.strokesight</string>
+</resources>

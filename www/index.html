@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1f4f3f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Stroke Sight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;-webkit-font-smoothing:antialiased}
+  body{background:#1f4f3f;color:#f5f1e8;display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',Georgia,serif;padding-bottom:env(safe-area-inset-bottom)}
+  .splash{display:flex;flex-direction:column;align-items:center;gap:36px;opacity:0;
+    animation:fadeIn 400ms cubic-bezier(.22,1,.36,1) forwards,
+              fadeOut 400ms cubic-bezier(.4,0,1,1) 2900ms forwards}
+  .mark{width:160px;height:160px}
+  .mark svg{width:100%;height:100%;display:block}
+  .mark .ring{stroke-dasharray:283;stroke-dashoffset:283;
+    animation:drawRing 900ms cubic-bezier(.22,1,.36,1) 80ms forwards}
+  .mark .half{opacity:0;animation:fadeUp 600ms cubic-bezier(.22,1,.36,1) 600ms forwards}
+  .mark .centre{opacity:0;animation:fadeUp 400ms cubic-bezier(.22,1,.36,1) 1000ms forwards}
+  .wordmark{font-size:42px;font-weight:600;letter-spacing:-0.02em;opacity:0;
+    animation:rise 700ms cubic-bezier(.22,1,.36,1) 900ms forwards}
+  .signature{position:fixed;left:0;right:0;bottom:calc(36px + env(safe-area-inset-bottom));
+    text-align:center;font-family:'Fraunces',Georgia,serif;font-size:13px;letter-spacing:0.02em;
+    color:#f5f1e8;opacity:0;animation:sigFade 600ms cubic-bezier(.22,1,.36,1) 1400ms forwards}
+  .signature .first{font-weight:600}.signature .second{font-weight:400;margin-left:3px}
+  @keyframes fadeIn{to{opacity:1}}
+  @keyframes fadeOut{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.03)}}
+  @keyframes drawRing{to{stroke-dashoffset:0}}
+  @keyframes fadeUp{to{opacity:1}}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes sigFade{to{opacity:0.55}}
+  @media (prefers-reduced-motion:reduce){
+    .splash,.mark .ring,.mark .half,.mark .centre,.wordmark,.signature{animation-duration:.001ms;animation-delay:0ms}
+    .splash{opacity:1;animation:fadeOut 400ms 2600ms forwards}
+    .mark .ring{stroke-dashoffset:0}.mark .half,.mark .centre,.signature{opacity:1}
+  }
+</style>
+</head>
+<body>
+<div class="splash" role="status" aria-label="Stroke Sight loading">
+  <div class="mark" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle class="ring" cx="50" cy="50" r="45" fill="none" stroke="#f5f1e8" stroke-width="3.5"/>
+      <path class="half" d="M 50 5 A 45 45 0 0 1 50 95" fill="#f5f1e8"/>
+      <circle class="centre" cx="50" cy="50" r="2" fill="#1f4f3f"/>
+    </svg>
+  </div>
+  <div class="wordmark">Stroke Sight</div>
+</div>
+<div class="signature" aria-hidden="true"><span class="first">Anstey</span><span class="second">Apps</span></div>
+<script>
+  setTimeout(function(){
+    window.dispatchEvent(new CustomEvent('splash:complete'));
+    window.location.replace('app.html');
+  }, 3300);
+</script>
+</body>
+</html>

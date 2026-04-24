@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#145f59">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stroke Sight">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+<title>Stroke Sight – Visual Field Trainer</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-label="Stroke Sight logo">
+      <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2" style="color:var(--primary)"/>
+      <circle cx="16" cy="16" r="4" fill="currentColor" style="color:var(--primary)"/>
+      <line x1="3" y1="16" x2="9" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--primary)"/>
+      <line x1="23" y1="16" x2="29" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--primary)"/>
+      <line x1="16" y1="3" x2="16" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--primary)"/>
+      <line x1="16" y1="23" x2="16" y2="29" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--primary)"/>
+    </svg>
+    Stroke Sight
+  </div>
+  <div class="header-right">
+    <select id="lang-select" class="lang-select" aria-label="Language">
+      <option value="en">EN</option>
+      <option value="es">ES</option>
+      <option value="fr">FR</option>
+      <option value="de">DE</option>
+      <option value="it">IT</option>
+      <option value="pt">PT</option>
+      <option value="cy">CY</option>
+      <option value="ja">JA</option>
+      <option value="ko">KO</option>
+      <option value="hi">HI</option>
+      <option value="ar">AR</option>
+      <option value="zh">ZH</option>
+      <option value="pl">PL</option>
+      <option value="es_mx">ES-MX</option>
+      <option value="pt_br">PT-BR</option>
+      <option value="fr_ca">FR-CA</option>
+    </select>
+    <button class="btn-icon" id="theme-btn" aria-label="Toggle dark mode">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-ico"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- HOME -->
+  <section class="screen active" id="screen-home" aria-label="Exercises">
+    <div class="home-body">
+      <h1 data-i18n="tagline">Visual Field Training</h1>
+      <p data-i18n="subtitle">Evidence-based protocols suggest 15–30 minutes daily, at least 5 days per week, for 4–6 weeks. Two shorter sessions per day may be more effective than one longer session.</p>
+      <div class="notice">
+        <span class="notice-icon">ⓘ</span>
+        <p data-i18n-html="notice_body_full"><strong>Wellness support tool — not a medical device.</strong> Stroke Sight is designed to support your daily practice alongside professional care. It does not diagnose, treat, or cure any medical condition. Always follow the guidance of your neuro-optometrist, stroke rehabilitation team, or other qualified clinician.</p>
+      </div>
+      <!-- Condition picker (replaces old side-picker) -->
+      <div class="cond-picker" id="cond-picker">
+        <div class="cond-picker-title" data-i18n="cond_title">What is your visual condition?</div>
+        <div class="cond-cards">
+          <button class="cond-card" id="cond-card-hemianopia">
+            <span class="cond-card-name" data-i18n="cond_hemianopia">Hemianopia</span>
+            <span class="cond-card-desc" data-i18n="cond_hemianopia_desc">Loss of half your visual field</span>
+          </button>
+          <button class="cond-card" id="cond-card-quadrantanopia">
+            <span class="cond-card-name" data-i18n="cond_quadrantanopia">Quadrantanopia</span>
+            <span class="cond-card-desc" data-i18n="cond_quadrantanopia_desc">Loss of a quarter of your visual field</span>
+          </button>
+          <button class="cond-card" id="cond-card-neglect">
+            <span class="cond-card-name" data-i18n="cond_neglect">Visual Neglect</span>
+            <span class="cond-card-desc" data-i18n="cond_neglect_desc">Your brain doesn’t notice one side</span>
+          </button>
+          <button class="cond-card" id="cond-card-scotoma">
+            <span class="cond-card-name" data-i18n="cond_scotoma">Scotoma</span>
+            <span class="cond-card-desc" data-i18n="cond_scotoma_desc">A blind spot in your vision</span>
+          </button>
+        </div>
+        <!-- Sub-option area rendered by JS -->
+        <div id="cond-sub-area"></div>
+      </div>
+      <div class="sec-label" data-i18n="choose_exercise">Choose an exercise</div>
+      <div class="ex-grid" id="ex-grid"></div>
+    </div>
+  </section>
+
+  <!-- EXERCISE -->
+  <section class="screen" id="screen-exercise" aria-label="Exercise">
+    <div class="ex-header">
+      <button class="btn-back" id="btn-back">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <span class="ex-title" id="ex-title">Exercise</span>
+    </div>
+    <div class="ex-body" id="ex-body"></div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="screen" id="screen-progress" aria-label="Progress">
+    <div class="prog-body">
+      <h2 data-i18n="progress_title">Your Progress</h2>
+      <div class="kpi-row" id="kpi-row"></div>
+      <!-- Progress trend chart -->
+      <div class="chart-card" id="chart-card" style="display:none">
+        <div class="chart-title">Your Progress Over Time</div>
+        <div class="chart-legend" id="chart-legend"></div>
+        <canvas id="progress-chart" width="600" height="220"></canvas>
+        <div class="chart-empty" id="chart-empty" style="display:none">Complete at least two sessions to see your progress trend.</div>
+      </div>
+      <div id="bench-container"></div>
+      <div class="prog-sec" data-i18n="recent_sessions">Recent sessions</div>
+      <div class="hist-list" id="hist-list"></div>
+      <!-- Email report -->
+      <div class="email-report-wrap" id="email-report-wrap">
+        <div class="prog-sec" data-i18n="email_section_title">Email my progress</div>
+        <div class="email-report-row">
+          <input type="email" id="report-email" class="email-input" placeholder="your@email.com" data-i18n="email_placeholder" autocomplete="email">
+          <button class="btn-primary-sm" id="btn-send-report">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <span data-i18n="btn_send_report">Send report</span>
+          </button>
+        </div>
+        <p class="email-hint" data-i18n="email_hint">Opens your mail app with a pre-filled progress summary. You can edit before sending.</p>
+      </div>
+      <div class="clear-wrap" id="clear-wrap" style="display:none">
+        <button class="btn-danger-sm" id="btn-clear-data">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <span data-i18n="btn_clear_data">Clear all data</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="screen" id="screen-about" aria-label="About">
+    <div class="about-body">
+      <h2 data-i18n="about_title">About Stroke Sight</h2>
+      <div class="about-card">
+        <h3 data-i18n="about_app_heading">About this app</h3>
+        <p data-i18n="about_app_body">for people living with post-stroke visual impairments — hemianopia, quadrantanopia, visual neglect, and scotoma. It is not a medical device and does not replace professional rehabilitation. Use it alongside guidance from your neuro-optometrist, stroke rehabilitation team, or low-vision specialist.</p>
+        <p data-i18n="safety_warning" style="background:var(--warn-lt);border:1px solid rgba(138,90,0,.22);border-radius:var(--r-lg);padding:.75rem 1rem;margin-top:.75rem;font-size:.875rem;color:var(--warn);">Stop and consult your clinician if you experience increased headaches, dizziness, nausea, or visual symptoms during or after exercises.</p>
+      </div>
+      <div class="about-card">
+        <h3 data-i18n="about_why_heading">Our approach to visual rehabilitation</h3>
+        <p data-i18n="about_why_body">After a stroke, different visual and attentional changes can occur depending on which part of the brain is affected. These exercises target the most common consequences — loss of part of the visual field, reduced awareness of one side of space, and blind spots within the remaining field — using approaches supported by clinical evidence.</p>
+      </div>
+      <div class="about-card">
+        <h3 data-i18n="about_exercises_heading">The exercises</h3>
+        <p style="font-size:.85rem;font-weight:700;color:var(--primary);margin:.5rem 0 .25rem">Hemianopia &amp; Quadrantanopia</p>
+        <ul>
+          <li><strong>Anchor &amp; Scan</strong> — saccadic eye movement training</li>
+          <li><strong>Reading Line Scan</strong> — visual scanning for reading</li>
+          <li><strong>Peripheral Flicker</strong> — peripheral awareness stimulation</li>
+          <li><strong>Visual Search Grid</strong> — systematic scanning practice</li>
+        </ul>
+        <p style="font-size:.85rem;font-weight:700;color:var(--primary);margin:.75rem 0 .25rem">Visual Neglect</p>
+        <ul>
+          <li><strong>Smooth Pursuit</strong> — smooth pursuit eye movement training</li>
+          <li><strong>Line Bisection</strong> — spatial bias calibration</li>
+          <li><strong>Visual Search Grid</strong> — also used for neglect</li>
+        </ul>
+        <p style="font-size:.85rem;font-weight:700;color:var(--primary);margin:.75rem 0 .25rem">Scotoma</p>
+        <ul>
+          <li><strong>Blind Spot Tracker</strong> — awareness training around the blind spot</li>
+          <li><strong>Gap Fill</strong> — perceptual completion practice</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h3 data-i18n="about_how_heading">How to use this app</h3>
+        <ul>
+          <li data-i18n-html="about_how_1">15–30 minutes daily, at least 5 days per week, for 4–6 weeks. Two shorter sessions may be more effective than one long one.</li>
+          <li data-i18n-html="about_how_2">Start with <strong>Peripheral Flicker</strong> if fatigue is high.</li>
+          <li data-i18n-html="about_how_3">Show your <strong>Progress tab</strong> to your therapist at appointments.</li>
+          <li data-i18n="about_how_4">This app works fully offline — no internet needed after first save.</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h3 data-i18n="about_important_heading">Important</h3>
+        <p data-i18n="about_important_body">This app is a supplement to professional rehabilitation, not a replacement. Recovery from stroke-related visual field loss varies greatly between individuals. Always follow your clinical team's guidance.</p>
+      </div>
+      <div class="about-card">
+        <h3>Clinical basis</h3>
+        <p data-i18n="about_evidence_basis">Hemianopia exercises (Anchor &amp; Scan, Reading Line Scan, Peripheral Flicker, Visual Search Grid) are based on compensatory saccadic scanning training — the approach supported by NICE NG236 and 40+ years of research from Zihl, Kerkhoff, Pambakian, and Trauzettel-Klosinski.
+
+Visual neglect exercises (Smooth Pursuit, Line Bisection calibration) follow the smooth pursuit eye movement training tradition recommended by the German Neurological Society guidelines and receiving the highest evidence grade in the Klinke et al. (2015) systematic review. Spatial auditory cues draw on the multisensory stimulation research of Bolognini and Tinelli.
+
+Scotoma exercises (Blind Spot Tracker, Gap Fill) provide awareness training and perceptual completion practice around the blind spot area. This complements &mdash; but does not replace &mdash; the eccentric viewing and Preferred Retinal Locus training offered by low-vision specialists.</p>
+      </div>
+      <div class="about-footer">
+        <button class="btn-privacy" id="btn-privacy">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span data-i18n="btn_privacy">Privacy Policy</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SETTINGS -->
+  <section class="screen" id="screen-settings" aria-label="Settings">
+    <div class="about-body" id="tab-settings">
+      <h2 class="page-title">Settings</h2>
+
+      <div class="settings-section-label">SOUND</div>
+      <div class="settings-card" id="settings-sound-row">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name" data-i18n="settings_sound_label">Sound cues</div>
+            <div class="settings-ex-desc" data-i18n="settings_sound_hint">Stereo audio cues during exercises. Subtle uses soft tones; Prominent uses louder tones.</div>
+          </div>
+        </div>
+        <div class="settings-sound-opts">
+          <button class="sound-opt" data-val="off" data-i18n="settings_sound_off">Off</button>
+          <button class="sound-opt" data-val="subtle" data-i18n="settings_sound_subtle">Subtle</button>
+          <button class="sound-opt" data-val="prominent" data-i18n="settings_sound_prominent">Prominent</button>
+        </div>
+      </div>
+
+      <div class="settings-section-label">DIFFICULTY</div>
+      <p class="settings-intro">Set the difficulty level for each exercise. Turn on Auto-advance to level up automatically as you improve.</p>
+
+      <!-- Anchor & Scan -->
+      <div class="settings-card" id="settings-card-anchor">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Anchor &amp; Scan</div>
+            <div class="settings-ex-desc" id="settings-desc-anchor"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-anchor" data-ex="anchor">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-anchor">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-anchor" data-ex="anchor">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels">
+          <span>Beginner</span><span>Advanced</span>
+        </div>
+      </div>
+
+      <!-- Reading Line Scan -->
+      <div class="settings-card" id="settings-card-reading">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Reading Line Scan</div>
+            <div class="settings-ex-desc" id="settings-desc-reading"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-reading" data-ex="reading">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-reading">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-reading" data-ex="reading">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels">
+          <span>Beginner</span><span>Advanced</span>
+        </div>
+      </div>
+
+      <!-- Peripheral Flicker -->
+      <div class="settings-card" id="settings-card-flicker">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Peripheral Flicker</div>
+            <div class="settings-ex-desc" id="settings-desc-flicker"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-flicker" data-ex="flicker">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-flicker">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-flicker" data-ex="flicker">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels">
+          <span>Beginner</span><span>Advanced</span>
+        </div>
+      </div>
+
+      <!-- Visual Search Grid -->
+      <div class="settings-card" id="settings-card-grid">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Visual Search Grid</div>
+            <div class="settings-ex-desc" id="settings-desc-grid"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-grid" data-ex="grid">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-grid">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-grid" data-ex="grid">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels">
+          <span>Beginner</span><span>Advanced</span>
+        </div>
+      </div>
+
+      <!-- Smooth Pursuit -->
+      <div class="settings-card" id="settings-card-pursuit">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Smooth Pursuit</div>
+            <div class="settings-ex-desc" id="settings-desc-pursuit"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-pursuit" data-ex="pursuit">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-pursuit">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-pursuit" data-ex="pursuit">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels"><span>Beginner</span><span>Advanced</span></div>
+      </div>
+
+      <!-- Line Bisection -->
+      <div class="settings-card" id="settings-card-bisection">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Line Bisection</div>
+            <div class="settings-ex-desc" id="settings-desc-bisection"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-bisection" data-ex="bisection">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-bisection">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-bisection" data-ex="bisection">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels"><span>Beginner</span><span>Advanced</span></div>
+      </div>
+
+      <!-- Blind Spot Tracker -->
+      <div class="settings-card" id="settings-card-tracker">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Blind Spot Tracker</div>
+            <div class="settings-ex-desc" id="settings-desc-tracker"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-tracker" data-ex="tracker">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-tracker">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-tracker" data-ex="tracker">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels"><span>Beginner</span><span>Advanced</span></div>
+      </div>
+
+      <!-- Gap Fill -->
+      <div class="settings-card" id="settings-card-gapfill">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-ex-name">Gap Fill</div>
+            <div class="settings-ex-desc" id="settings-desc-gapfill"></div>
+          </div>
+          <label class="toggle-label" title="Auto-advance level">
+            <input type="checkbox" class="auto-toggle" id="auto-gapfill" data-ex="gapfill">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="settings-level-row">
+          <span class="settings-level-num" id="lvl-num-gapfill">1</span>
+          <input type="range" min="1" max="10" step="1" class="level-slider" id="slider-gapfill" data-ex="gapfill">
+          <span class="settings-level-max">10</span>
+        </div>
+        <div class="settings-level-labels"><span>Beginner</span><span>Advanced</span></div>
+      </div>
+
+      <!-- Condition section -->
+      <div class="settings-section-label" style="margin-top:2rem">YOUR CONDITION</div>
+      <div class="about-card" id="settings-cond-display">
+        <p style="font-size:.9rem;color:var(--muted)">Current condition: <strong id="settings-cond-label">Not set</strong></p>
+        <p style="font-size:.82rem;color:var(--faint);margin-top:.375rem">Change your condition on the Exercises tab.</p>
+      </div>
+
+      <div class="settings-section-label" style="margin-top:2rem">ABOUT AUTO-ADVANCE</div>
+      <div class="about-card">
+        <p>When Auto-advance is on, your level increases automatically after 3 strong sessions. You can always adjust manually using the slider above.</p>
+      </div>
+
+      <div class="settings-section-label" style="margin-top:2rem">DIAGNOSTICS</div>
+      <div class="settings-card" id="settings-errors">
+        <h3>Diagnostic log</h3>
+        <p style="font-size:.8rem;color:var(--faint)">If you experience problems, screenshot this section and send to support@ansteyapps.com</p>
+        <div id="error-log-list" style="font-size:.75rem;color:var(--muted);max-height:120px;overflow-y:auto"></div>
+      </div>
+
+    </div>
+  </section>
+
+<!-- Language Picker (first launch only) -->
+<div class="langpick-screen" id="langpick" role="dialog" aria-modal="true" aria-label="Choose language" style="display:none">
+  <div class="langpick-logo">
+    <svg viewBox="0 0 512 512" fill="none"><rect width="512" height="512" rx="96" fill="var(--primary)"/><circle cx="256" cy="256" r="140" stroke="white" stroke-width="28" fill="none"/><circle cx="256" cy="256" r="48" fill="white"/><line x1="60" y1="256" x2="140" y2="256" stroke="white" stroke-width="28" stroke-linecap="round"/><line x1="372" y1="256" x2="452" y2="256" stroke="white" stroke-width="28" stroke-linecap="round"/><line x1="256" y1="60" x2="256" y2="140" stroke="white" stroke-width="28" stroke-linecap="round"/><line x1="256" y1="372" x2="256" y2="452" stroke="white" stroke-width="28" stroke-linecap="round"/></svg>
+    <span class="langpick-logo-name">Stroke Sight</span>
+  </div>
+  <p class="langpick-tagline">Visual Field Training · 视野训练 · تدريب المجال البصري</p>
+  <div class="langpick-grid">
+    <button class="langpick-btn" data-lang="en"><span class="langpick-native">English</span><span class="langpick-english">English</span></button>
+    <button class="langpick-btn" data-lang="es"><span class="langpick-native">Español</span><span class="langpick-english">Spanish</span></button>
+    <button class="langpick-btn" data-lang="fr"><span class="langpick-native">Français</span><span class="langpick-english">French</span></button>
+    <button class="langpick-btn" data-lang="de"><span class="langpick-native">Deutsch</span><span class="langpick-english">German</span></button>
+    <button class="langpick-btn" data-lang="it"><span class="langpick-native">Italiano</span><span class="langpick-english">Italian</span></button>
+    <button class="langpick-btn" data-lang="pt"><span class="langpick-native">Português</span><span class="langpick-english">Portuguese</span></button>
+    <button class="langpick-btn" data-lang="cy"><span class="langpick-native">Cymraeg</span><span class="langpick-english">Welsh</span></button>
+    <button class="langpick-btn" data-lang="ja"><span class="langpick-native">日本語</span><span class="langpick-english">Japanese</span></button>
+    <button class="langpick-btn" data-lang="ko"><span class="langpick-native">한국어</span><span class="langpick-english">Korean</span></button>
+    <button class="langpick-btn" data-lang="hi"><span class="langpick-native">हिन्दी</span><span class="langpick-english">Hindi</span></button>
+    <button class="langpick-btn" data-lang="ar"><span class="langpick-native">العربية</span><span class="langpick-english">Arabic</span></button>
+    <button class="langpick-btn" data-lang="zh"><span class="langpick-native">中文</span><span class="langpick-english">Chinese</span></button>
+    <button class="langpick-btn" data-lang="pl"><span class="langpick-native">Polski</span><span class="langpick-english">Polish</span></button>
+    <button class="langpick-btn" data-lang="es_mx"><span class="langpick-native">Español (América)</span><span class="langpick-english">Latin American Spanish</span></button>
+    <button class="langpick-btn" data-lang="pt_br"><span class="langpick-native">Português (Brasil)</span><span class="langpick-english">Brazilian Portuguese</span></button>
+    <button class="langpick-btn" data-lang="fr_ca"><span class="langpick-native">Français (Canada)</span><span class="langpick-english">Canadian French</span></button>
+  </div>
+</div>
+
+<!-- First-run energy check -->
+<div class="guidance-screen" id="guidance" style="display:none">
+  <div class="guidance-card">
+    <div class="guidance-icon">⚡</div>
+    <h2 class="guidance-title">How is your energy today?</h2>
+    <div class="guidance-options">
+      <button class="guidance-btn" id="guidance-good">
+        <span class="guidance-emoji">💪</span>
+        <div>
+          <span class="guidance-label">I have good energy</span>
+          <span class="guidance-hint">We recommend Anchor &amp; Scan or Visual Search Grid</span>
+        </div>
+      </button>
+      <button class="guidance-btn" id="guidance-tired">
+        <span class="guidance-emoji">🙂</span>
+        <div>
+          <span class="guidance-label">I'm a bit tired</span>
+          <span class="guidance-hint">We recommend Reading Line Scan</span>
+        </div>
+      </button>
+      <button class="guidance-btn" id="guidance-fatigued">
+        <span class="guidance-emoji">😴</span>
+        <div>
+          <span class="guidance-label">I'm fatigued</span>
+          <span class="guidance-hint">We recommend Peripheral Flicker — low demand, high benefit</span>
+        </div>
+      </button>
+    </div>
+    <p class="guidance-footer">You can always choose any exercise from the home screen.</p>
+  </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div class="modal-overlay" id="privacy-modal" role="dialog" aria-modal="true" aria-label="Privacy Policy">
+  <div class="modal-sheet">
+    <div class="modal-header">
+      <h2 data-i18n="privacy_title">Privacy Policy</h2>
+      <button class="modal-close" id="privacy-modal-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="pp-meta">Stroke Sight – Visual Field Trainer &nbsp;&bull;&nbsp; Developer: Liam Anstey &nbsp;&bull;&nbsp; liam@ansteyapps.com &nbsp;&bull;&nbsp; Effective: 1 April 2026</p>
+      <h3 data-i18n="privacy_short_heading">The short version</h3>
+      <p data-i18n-html="privacy_short_body_full"><strong>Stroke Sight collects no personal data whatsoever.</strong> Everything the app does happens entirely on your device. No accounts, no tracking, no analytics, no internet required.</p>
+      <h3>Nature of this application</h3>
+      <p>Stroke Sight is a wellness support application, not a medical device. It does not diagnose, treat, monitor, or cure any medical condition. It is intended as a self-directed home practice aid to complement professional stroke rehabilitation care.</p>
+      <h3>Data we collect</h3>
+      <p>We collect no personal data. Specifically:</p>
+      <ul>
+        <li>No name, email, or contact information</li>
+        <li>No health or medical data transmitted anywhere</li>
+        <li>No location data</li>
+        <li>No device identifiers or advertising IDs</li>
+        <li>No usage analytics or behavioural tracking</li>
+        <li>No camera, microphone, or contacts access</li>
+        <li>No crash reports or diagnostics</li>
+      </ul>
+      <h3>On-device storage</h3>
+      <p>Your exercise progress (scores, reaction times, session history) is stored locally on your device using IndexedDB. This data never leaves your device, is not backed up to any server, and is removed when you uninstall the app or clear app data.</p>
+      <h3>Third-party services</h3>
+      <p>Stroke Sight contains no third-party SDKs, analytics platforms, advertising networks, social media integrations, or cloud services of any kind.</p>
+      <h3>Children’s privacy</h3>
+      <p>Stroke Sight is suitable for all ages. We do not collect data from any user, including children. The app inherently complies with COPPA, the UK Children’s Code, and GDPR provisions for children’s data.</p>
+      <h3>Your rights (GDPR)</h3>
+      <p>Because Stroke Sight collects no personal data, there is nothing held by us to access, correct, port, or erase. If you have any questions about your rights or this policy, contact us at liam@ansteyapps.com.</p>
+      <h3>Changes to this policy</h3>
+      <p>If we update this policy, the revised version will be made available within the app. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+      <h3>Contact</h3>
+      <p>Liam Anstey &mdash; <a href="mailto:liam@ansteyapps.com" style="color:var(--primary)">liam@ansteyapps.com</a></p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Level-up overlay -->
+<div class="levelup-overlay" id="levelup-overlay" aria-live="polite">
+  <div class="levelup-card">
+    <div class="levelup-icon">★</div>
+    <div class="levelup-title">Level Up!</div>
+    <div class="levelup-sub" id="levelup-sub">You've reached Level 2</div>
+    <div class="levelup-exname" id="levelup-exname">Anchor &amp; Scan</div>
+    <button class="btn-primary-sm levelup-btn" id="levelup-btn">Continue</button>
+  </div>
+</div>
+
+</main>
+
+<nav class="bottom-nav" aria-label="Main navigation">
+  <button class="nav-btn active" id="nav-home" aria-label="Exercises">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <span data-i18n="nav_exercises">Exercises</span>
+  </button>
+  <button class="nav-btn" id="nav-progress" aria-label="Progress">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span data-i18n="nav_progress">Progress</span>
+  </button>
+  <button class="nav-btn" id="nav-about" aria-label="About">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+    <span data-i18n="nav_about">About</span>
+  </button>
+  <button class="nav-btn" id="nav-settings" data-tab="settings" aria-label="Settings">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    <span>Settings</span>
+  </button>
+</nav>
+
+<script src="config.js"></script>
+<script src="strings/en.js"></script>
+<script src="strings/es.js"></script>
+<script src="strings/fr.js"></script>
+<script src="strings/de.js"></script>
+<script src="strings/it.js"></script>
+<script src="strings/pt.js"></script>
+<script src="strings/cy.js"></script>
+<script src="strings/ja.js"></script>
+<script src="strings/ko.js"></script>
+<script src="strings/hi.js"></script>
+<script src="strings/ar.js"></script>
+<script src="strings/zh.js"></script>
+<script src="strings/pl.js"></script>
+<script src="strings/es_mx.js"></script>
+<script src="strings/pt_br.js"></script>
+<script src="strings/fr_ca.js"></script>
+<script src="audio.js"></script>
+<script src="app.js"></script>
+<script src="exercises/anchor.js"></script>
+<script src="exercises/reading.js"></script>
+<script src="exercises/flicker.js"></script>
+<script src="exercises/grid.js"></script>
+<script src="exercises/pursuit.js"></script>
+<script src="exercises/bisection.js"></script>
+<script src="exercises/tracker.js"></script>
+<script src="exercises/gapfill.js"></script>
+</body>
+</html>
