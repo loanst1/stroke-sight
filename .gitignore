@@ -12,3 +12,5 @@ keystore.properties
 *.log
 package-lock.json.bak
 *.bak
+android/keystore.properties
+keystore.properties
